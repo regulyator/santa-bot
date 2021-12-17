@@ -13,5 +13,6 @@ COPY --from=build /home/gradle/src/build/libs/santa-bot.jar /app/santa-bot.jar
 ENV B_TOKEN=token
 ENV B_NAME=name
 ENV DATABASE_URL=mongodb://localhost:27017/santa
+ENV MONGODB_CERT_PATH=cert_path
 
 ENTRYPOINT ["java","-jar","/app/santa-bot.jar","--santa.bot.token=${B_TOKEN}", "--santa.bot.name=${B_NAME}","--spring.data.mongodb.uri=${DATABASE_URL}"]
