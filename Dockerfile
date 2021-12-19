@@ -8,6 +8,7 @@ FROM bellsoft/liberica-openjdk-centos:11
 ENV B_TOKEN=token
 ENV B_NAME=name
 ENV DATABASE_URL=mongodb://localhost:27017/santa
+ENV CA_CERT=cert
 
 RUN mkdir /app
 
