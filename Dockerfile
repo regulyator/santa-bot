@@ -5,14 +5,18 @@ RUN gradle build --no-daemon
 
 FROM bellsoft/liberica-openjdk-centos:11
 
-EXPOSE 8099
+ENV B_TOKEN=token
+ENV B_NAME=name
+ENV DATABASE_URL=mongodb://localhost:27017/santa
 
 RUN mkdir /app
 
 COPY --from=build /home/gradle/src/build/libs/santa-bot.jar /app/santa-bot.jar
-ENV B_TOKEN=token
-ENV B_NAME=name
-ENV DATABASE_URL=mongodb://localhost:27017/santa
-ENV MONGODB_CERT_PATH=cert_path
+
+USER root
+RUN echo "${CA_CERT}" > ca-certificate.crt
+RUN \
+    cd $JAVA_HOME/jre/lib/security \
+    && keytool -keystore cacerts -storepass pass -noprompt -trustcacerts -importcert -alias ldapcert -file ca-certificate.crt
 
 ENTRYPOINT ["java","-jar","/app/santa-bot.jar","--santa.bot.token=${B_TOKEN}", "--santa.bot.name=${B_NAME}","--spring.data.mongodb.uri=${DATABASE_URL}"]
