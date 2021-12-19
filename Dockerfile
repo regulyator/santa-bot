@@ -15,6 +15,7 @@ COPY --from=build /home/gradle/src/build/libs/santa-bot.jar /app/santa-bot.jar
 
 USER root
 RUN echo "${CA_CERT}" > $JAVA_HOME/lib/security/ca-certificate.crt
+RUN cat $JAVA_HOME/lib/security/ca-certificate.crt
 RUN \
     cd $JAVA_HOME/lib/security \
     && keytool -keystore -cacerts -storepass password -noprompt -trustcacerts -importcert -alias ldapcert -file ca-certificate.crt
