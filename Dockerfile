@@ -17,6 +17,6 @@ USER root
 RUN echo "${CA_CERT}" > $JAVA_HOME/lib/security/ca-certificate.crt
 RUN \
     cd $JAVA_HOME/lib/security \
-    && keytool -keystore cacerts -storepass pass -noprompt -trustcacerts -importcert -alias ldapcert -file ca-certificate.crt
+    && keytool -keystore -cacerts -storepass pass -noprompt -trustcacerts -importcert -alias ldapcert -file ca-certificate.crt
 
 ENTRYPOINT ["java","-jar","/app/santa-bot.jar","--santa.bot.token=${B_TOKEN}", "--santa.bot.name=${B_NAME}","--spring.data.mongodb.uri=${DATABASE_URL}"]
