@@ -8,14 +8,14 @@ FROM bellsoft/liberica-openjdk-centos:11
 ENV B_TOKEN=token
 ENV B_NAME=name
 ENV DATABASE_URL=mongodb://localhost:27017/santa
-ENV CA_CERT=cert
+ENV CERT=cert
 
 RUN mkdir /app
 
 COPY --from=build /home/gradle/src/build/libs/santa-bot.jar /app/santa-bot.jar
 
 USER root
-RUN echo "${CA_CERT}" > $JAVA_HOME/lib/security/ca-certificate.crt
+RUN echo "${CERT}" > $JAVA_HOME/lib/security/ca-certificate.crt
 RUN cat $JAVA_HOME/lib/security/ca-certificate.crt
 RUN \
     cd $JAVA_HOME/lib/security \
